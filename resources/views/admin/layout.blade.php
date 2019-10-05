@@ -26,6 +26,7 @@
   <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.css') }}">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.3.0/css/flag-icon.min.css">
   @yield('extracss')
 </head>
 
@@ -113,31 +114,48 @@
 
           <!-- Notifications Dropdown Menu -->
           <li class="nav-item dropdown">
-            <a class="nav-link" data-toggle="dropdown" href="#">
+            <a class="nav-link" data-toggle="dropdown" href="#" id="rest_notifications">
               <i class="far fa-bell"></i>
-              <span class="badge badge-warning navbar-badge">15</span>
+              <span class="badge badge-warning navbar-badge" id="notification_number">0</span>
             </a>
-            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-              <span class="dropdown-item dropdown-header">15 @lang('adminpanel.noti')</span>
+            <div  class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+              <span class="dropdown-item dropdown-header">0 @lang('adminpanel.noti')</span>
               <div class="dropdown-divider"></div>
-              <a href="#" class="dropdown-item">
-                <i class="fas fa-envelope mr-2"></i> 4 new messages
-                <span class="float-right text-muted text-sm">3 mins</span>
-              </a>
-              <div class="dropdown-divider"></div>
-              <a href="#" class="dropdown-item">
-                <i class="fas fa-users mr-2"></i> 8 friend requests
-                <span class="float-right text-muted text-sm">12 hours</span>
-              </a>
-              <div class="dropdown-divider"></div>
-              <a href="#" class="dropdown-item">
-                <i class="fas fa-file mr-2"></i> 3 new reports
-                <span class="float-right text-muted text-sm">2 days</span>
-              </a>
-              <div class="dropdown-divider"></div>
+             
+              <div id="notification">
+
+                <a href="#" class="dropdown-item">
+                  <i class="fas fa-envelope mr-2"></i> 4 new messages
+                  <span class="float-right text-muted text-sm">3 mins</span>
+                </a>
+                
+                <div class="dropdown-divider"></div>
+
+              </div>
+             
+
+
               <a href="#" class="dropdown-item dropdown-footer">@lang('adminpanel.allnoti')</a>
             </div>
           </li>
+
+
+          <li class="nav-item dropdown">
+              <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
+                <i class="flag-icon flag-icon-us"></i>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right p-0">
+                <a href="{{ url('/lang/en') }}" class="dropdown-item active">
+                  <i class="flag-icon flag-icon-us mr-2"></i> English
+                </a>
+                <a href="{{ url('/lang/ar') }}" class="dropdown-item">
+                  <i class="flag-icon flag-icon-eg mr-2"></i> العربية
+                </a>
+              </div>
+            </li>
+
+
+
           <li class="nav-item">
             <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
               <i class="fas fa-th-large"></i>
@@ -190,7 +208,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="./index.html" class="nav-link active">
+                <a href="{{ route('users') }}" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>@lang('adminpanel.showusers')</p>
                 </a>
@@ -362,6 +380,108 @@
 <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('dist/js/demo.js') }}"></script>
+
+
+<script>
+
+$(document).ready(function(){
+
+
+  setInterval(get_notifications,5000);
+
+
+
+
+
+
+$('#rest_notifications').on('click',function(){
+
+
+
+	$.ajax({
+
+url: "{{ url('/restnotification') }}" ,
+type: "get",
+
+
+success: function(data){
+
+
+	console.log(data);
+
+ $("#notification_number").html(0);
+ //<span  class="icon-shopping_cart"></span>
+ $("#notification").html(data.notification);
+
+
+
+
+
+},
+error:function(data)
+{
+console.log(data);
+}
+});
+
+
+
+});
+
+
+
+
+
+
+
+function get_notifications(){
+
+
+	$.ajax({
+
+url: "{{ url('/getnotifications') }}" ,
+type: "get",
+
+
+success: function(data){
+
+
+	console.log(data);
+
+ $("#notification_number").html(data.number);
+ //<span  class="icon-shopping_cart"></span>
+ $("#notification").html(data.notification);
+
+
+
+
+
+},
+error:function(data)
+{
+console.log(data);
+}
+});
+
+
+
+}
+
+
+
+
+
+
+});
+
+
+
+
+
+
+</script>
+
+
 @yield('extrajs')
 </body>
 </html>

@@ -33,6 +33,14 @@ Route::get('/lang/{lang}','languageController@changelanguage');
 
 
 Route::get('/adminpanel','HomeController@dashboard')->name('adminpanel');
+Route::get('/users','HomeController@userindex')->name('users');
+
+Route::post('/addpost','HomeController@addpost');
+
+Route::get('/getnotifications','HomeController@getnotifications');
+
+
+Route::get('/restnotification','HomeController@restnotification');
 
 Route::get('/', function () {
     return view('welcome');
