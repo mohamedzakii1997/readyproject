@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
 @section('title')
-    Dashboard | Engineers
+    Dashboard | Admins
 @endsection
 
 @section('extracss')
@@ -26,16 +26,16 @@
 
             <div class="card">
                     <div class="card-header">
-                      <h3 class="card-title">Enginners Data</h3>
+                      <h3 class="card-title">Admins Data</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
                       <table id="user_table" class="table table-bordered table-striped">
                         <thead>
                         <tr>
-                          <th>Enginner ID</th>
-                          <th> Enginner name</th>
-                          <th> Enginner email</th>
+                          <th>Admin ID</th>
+                          <th> Admin name</th>
+                          <th> Admin email</th>
                           <th>action</th>
                          
                         </tr>
@@ -80,7 +80,7 @@ processing:true,
 serverside:true,
 ajax:{
 
-url: "{{ url('engineers')}}",
+url: "{{ url('admins')}}",
 
 },
 

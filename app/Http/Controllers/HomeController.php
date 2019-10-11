@@ -7,6 +7,7 @@ use App\Post;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Admin;
 
 class HomeController extends Controller
 {
@@ -99,10 +100,31 @@ public function getnotifications(){
 
 
 
-$allnotifications = Notification::orderBy('seen','asc')->get();
-$unseen_notification_number = Notification::where('seen','=',0)->count();
+$allnotifications = Notification::orderBy('id','asc')->get();
+$unseen_notification_number = Auth::user()->unseen_notification;  //Notification::where('seen','=',0)->count();
 
 $show_all_notifcations ='';
+
+
+
+if($allnotifications->count() == 0){
+
+    $show_all_notifcations = '
+    <a href="#" class="dropdown-item ">
+    <i class="fas fa-envelope mr-2"></i> There Is No Notificatons
+    <br>
+    
+    <span class="float-right text-muted text-sm">3 mins</span>
+  </a>
+  
+  <div class="dropdown-divider"></div>
+';
+
+
+
+
+
+}
 
 
 if($unseen_notification_number>0){
@@ -112,7 +134,7 @@ if($unseen_notification_number>0){
     {
         if($row->seen == 0){
             $show_all_notifcations .= '
-            <a href="#" class="dropdown-item active">
+            <a href="#" class="dropdown-item ">
             <i class="fas fa-envelope mr-2"></i> '.$row->title.'
             <br>
             '.$row->body.'
@@ -152,6 +174,8 @@ $data = array(
     );
     
     
+
+    
     return response()->json($data);
 
 
@@ -161,14 +185,12 @@ $data = array(
 
 public function restnotification(){
 
-    $allnotifications = Notification::all();
+    $allnotifications =  Notification::orderBy('id','desc')->get();
 
-    foreach($allnotifications as $noti){
 
-$noti->seen = 1;
-$noti->save();
-
-    }
+$user = Auth::user();
+$user->unseen_notification = 0;
+$user->save();
 
     $show_all_notifcations = '';
 

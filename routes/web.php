@@ -35,7 +35,7 @@ Route::get('/lang/{lang}','languageController@changelanguage');
 Route::get('/adminpanel','HomeController@dashboard')->name('adminpanel');
 Route::get('/users','HomeController@userindex')->name('users');
 
-Route::post('/addpost','HomeController@addpost');
+
 
 Route::get('/getnotifications','HomeController@getnotifications');
 
@@ -50,10 +50,22 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+/**engineers routes */
+
+Route::resource('engineers','engineersController');
+
+/** admins routes */
+Route::resource('admins','adminsController');
+
+/** systems routes */
+Route::resource('systems','systemsController');
+
+Route::get('systems/downloadattach/{id}','systemsController@download');
 
 
+/**country routes */
 
-
+Route::resource('countries','countryController');
 
 
 

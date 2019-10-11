@@ -19,18 +19,6 @@
                    @lang('main.loggedin')
 
 
-<hr>
-<h2>add new post </h2>
-<form method="POST" action="{{ url('/addpost') }}"> 
-    @csrf
-                   <div class="input-group flex-nowrap">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="addon-wrapping">@</span>
-                    </div>
-                    <input type="text" class="form-control" name="content" placeholder="content" aria-label="Username" aria-describedby="addon-wrapping">
-                  </div>
-                  <button type="submit" class="btn btn-primary">add post</button>
-                </form>
                 </div>
             </div>
         </div>
